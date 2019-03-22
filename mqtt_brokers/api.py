@@ -21,11 +21,25 @@ def createLog(m):
 
 class MqttConnectView(APIView):
     def get(self, request):
-        for broker in Broker.objects.all():
-            mqtt_client = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
-            mqtt_client.connect(host=broker.ip)
-            mqtt_client.subscribe(topic=MQTT_SETTINGS.get("TOPICS").get("LOGS"))
-            mqtt_client.on_message = lambda client, userdata, message: createLog(message)
-            mqtt_client.loop_start()
-
-        return Response({"message": "mqtt connection success"}, status=200)
+        success_message = []
+        error_message = []
+        brokers = Broker.objects.all()
+        if len(brokers) is 0:
+            return Response({'ERRORS': 'No brokers registered'}, status=404)
+        for broker in brokers:
+            try:
+                mqtt_client = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
+                mqtt_client.connect(host=broker.ip)
+                mqtt_client.subscribe(topic=MQTT_SETTINGS.get("TOPICS").get("LOGS"))
+                mqtt_client.on_message = lambda client, userdata, message: createLog(message)
+                mqtt_client.loop_start()
+                success_message.append('Mqtt connection with broker ' + broker.ip + ' success')
+            except Exception as err:
+                error_message += [{
+                    'broker_ip': broker.ip,
+                    'ERROR': err.args
+                }]
+        return Response({
+            "SUCCESS": success_message,
+            "ERRORS": error_message
+        }, status=200)
