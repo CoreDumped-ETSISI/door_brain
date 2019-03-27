@@ -8,17 +8,6 @@ from logs.serializers import MqttLogsListenerSerial
 mqtt_manager = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
 
 
-def createLog(m):
-    data = {
-        'message': m.payload.decode('utf-8')
-    }
-    serializer = MqttLogsListenerSerial(data=data)
-    if serializer.is_valid():
-        serializer.create(validated_data=serializer.validated_data)
-    else:
-        print(serializer.errors)
-
-
 class MqttConnectView(APIView):
     def get(self, request):
         success_message = []
@@ -31,7 +20,7 @@ class MqttConnectView(APIView):
                 mqtt_client = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
                 mqtt_client.connect(host=broker.ip)
                 mqtt_client.subscribe(topic=MQTT_SETTINGS.get("TOPICS").get("LOGS"))
-                mqtt_client.on_message = lambda client, userdata, message: createLog(message)
+                mqtt_client.on_message = lambda client, userdata, message: self.createLog(message)
                 mqtt_client.loop_start()
                 success_message.append('Mqtt connection with broker ' + broker.ip + ' success')
             except Exception as err:
@@ -43,3 +32,35 @@ class MqttConnectView(APIView):
             "SUCCESS": success_message,
             "ERRORS": error_message
         }, status=200)
+
+    def createLog(self, m):
+        data = {
+            'message': m.payload.decode('utf-8')
+        }
+        serializer = MqttLogsListenerSerial(data=data)
+        if serializer.is_valid():
+            serializer.create(validated_data=serializer.validated_data)
+        else:
+            print(serializer.errors)
+
+
+class MqttSendMessage(APIView):
+    def get(self, request, message):
+        brokers = Broker.objects.all()
+        error_message = []
+        for broker in brokers:
+            try:
+                mqtt_manager.connect(broker.ip)
+                mqtt_manager.publish(
+                    topic=MQTT_SETTINGS.get('TOPICS').get('MANAGEMENT'),
+                    payload=message
+                )
+            except Exception as err:
+                error_message += [{
+                    'broker_ip': broker.ip,
+                    'ERROR': err.args
+                }]
+            return Response({
+                "Message": 'Message sent',
+                "ERRORS": error_message
+            }, status=200)
