@@ -105,3 +105,21 @@ Also you can check it with the request http://127.0.0.1:8000/logs, which should 
     },
 ]
 ```
+
+### The Brain talks
+
+A message can be published with the GET request http://127.0.0.1:8000/mqtt/sendMessage/msg.
+The last extension *msg* will be the message to publish.
+Start a *subscriber* with `mosquitto_sub -h 127.0.0.1 -t "manager"` and make the request.
+The command console will display the message.
+
+http://127.0.0.1:8000/mqtt/sendMessage/Hello 
+http://127.0.0.1:8000/mqtt/sendMessage/Dude
+http://127.0.0.1:8000/mqtt/sendMessage/ooooh
+
+```
+linux:~$ mosquitto_sub -h 192.168.1.118 -t "manager"
+Hello
+Dude
+ooooh
+```
