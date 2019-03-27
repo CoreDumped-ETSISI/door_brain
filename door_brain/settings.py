@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'doors',
     'mqtt_brokers',
     'logs',
+    'custom_groups',
 ]
 
 MIDDLEWARE = [
