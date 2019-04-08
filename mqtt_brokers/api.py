@@ -46,10 +46,11 @@ class MqttConnectView(APIView):
 
 class MqttSendMessage(APIView):
     def get(self, request, message):
-        brokers = Broker.objects.all()
+        brokers = Broker.objects.filter(duty="management")
         error_message = []
         for broker in brokers:
             try:
+                print(broker.ip)
                 mqtt_manager.connect(broker.ip)
                 mqtt_manager.publish(
                     topic=MQTT_SETTINGS.get('TOPICS').get('MANAGEMENT'),
