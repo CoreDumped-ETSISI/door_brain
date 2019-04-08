@@ -4,6 +4,7 @@ from paho.mqtt import client as mqtt
 from door_brain.settings import MQTT_SETTINGS
 from mqtt_brokers.models import Broker
 from logs.serializers import MqttLogsListenerSerial
+import json
 
 mqtt_manager = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
 
@@ -34,9 +35,7 @@ class MqttConnectView(APIView):
         }, status=200)
 
     def createLog(self, m):
-        data = {
-            'message': m.payload.decode('utf-8')
-        }
+        data = json.loads(m.payload)
         serializer = MqttLogsListenerSerial(data=data)
         if serializer.is_valid():
             serializer.create(validated_data=serializer.validated_data)
