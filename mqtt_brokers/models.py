@@ -7,7 +7,7 @@ DUTIES = [
 
 
 class Broker(models.Model):
-    ip = models.CharField(max_length=30, primary_key=True)
+    ip = models.CharField(max_length=30, primary_key=True, default='X.X.X.X')
     duty = models.CharField(choices=DUTIES, max_length=50)
 
     def __str__(self):
