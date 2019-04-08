@@ -135,3 +135,12 @@ MQTT_SETTINGS = {
         'MANAGEMENT': "manager"
     }
 }
+
+BROKER_DUTIES = {
+    "choices": [
+        ("logs", "doors logs listener"),
+        ("management", "order publisher")
+    ],
+    "MANAGEMENT": "management",
+    "LOGS": "logs"
+}

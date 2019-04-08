@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from paho.mqtt import client as mqtt
-from door_brain.settings import MQTT_SETTINGS
+from door_brain.settings import MQTT_SETTINGS, BROKER_DUTIES
 from mqtt_brokers.models import Broker
 from logs.serializers import MqttLogsListenerSerial
 import json
@@ -13,7 +13,7 @@ class MqttConnectView(APIView):
     def get(self, request):
         success_message = []
         error_message = []
-        brokers = Broker.objects.filter(duty="logs")
+        brokers = Broker.objects.filter(duty=BROKER_DUTIES.get("LOGS"))
         if len(brokers) is 0:
             return Response({'ERRORS': 'No brokers registered'}, status=404)
         for broker in brokers:
@@ -45,7 +45,7 @@ class MqttConnectView(APIView):
 
 class MqttSendMessage(APIView):
     def get(self, request, message):
-        brokers = Broker.objects.filter(duty="management")
+        brokers = Broker.objects.filter(duty=BROKER_DUTIES.get("MANAGEMENT"))
         error_message = []
         for broker in brokers:
             try:
