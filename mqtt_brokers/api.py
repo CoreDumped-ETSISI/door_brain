@@ -61,7 +61,7 @@ class MqttSendMessage(APIView):
                     'broker_ip': broker.ip,
                     'ERROR': err.args
                 }]
-            return Response({
-                "Message": 'Message sent',
-                "ERRORS": error_message
-            }, status=200)
+        return Response({
+            "Message": 'Message sent',
+            "ERRORS": error_message
+        }, status=200)
