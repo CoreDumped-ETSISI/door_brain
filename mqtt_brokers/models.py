@@ -1,8 +1,14 @@
 from django.db import models
 
+DUTIES = [
+    ("logs", "doors logs listener"),
+    ("management", "order publisher")
+]
+
 
 class Broker(models.Model):
-    ip = models.CharField(max_length=30, primary_key=True)
+    ip = models.CharField(max_length=30, primary_key=True, default='X.X.X.X')
+    duty = models.CharField(choices=DUTIES, max_length=50)
 
     def __str__(self):
-        return self.ip
+        return self.duty + ' - ' + self.ip

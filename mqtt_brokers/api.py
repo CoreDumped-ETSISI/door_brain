@@ -4,6 +4,7 @@ from paho.mqtt import client as mqtt
 from door_brain.settings import MQTT_SETTINGS
 from mqtt_brokers.models import Broker
 from logs.serializers import MqttLogsListenerSerial
+import json
 
 mqtt_manager = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
 
@@ -12,7 +13,7 @@ class MqttConnectView(APIView):
     def get(self, request):
         success_message = []
         error_message = []
-        brokers = Broker.objects.all()
+        brokers = Broker.objects.filter(duty="logs")
         if len(brokers) is 0:
             return Response({'ERRORS': 'No brokers registered'}, status=404)
         for broker in brokers:
@@ -34,9 +35,7 @@ class MqttConnectView(APIView):
         }, status=200)
 
     def createLog(self, m):
-        data = {
-            'message': m.payload.decode('utf-8')
-        }
+        data = json.loads(m.payload)
         serializer = MqttLogsListenerSerial(data=data)
         if serializer.is_valid():
             serializer.create(validated_data=serializer.validated_data)
@@ -46,10 +45,11 @@ class MqttConnectView(APIView):
 
 class MqttSendMessage(APIView):
     def get(self, request, message):
-        brokers = Broker.objects.all()
+        brokers = Broker.objects.filter(duty="management")
         error_message = []
         for broker in brokers:
             try:
+                print(broker.ip)
                 mqtt_manager.connect(broker.ip)
                 mqtt_manager.publish(
                     topic=MQTT_SETTINGS.get('TOPICS').get('MANAGEMENT'),
@@ -60,7 +60,7 @@ class MqttSendMessage(APIView):
                     'broker_ip': broker.ip,
                     'ERROR': err.args
                 }]
-            return Response({
-                "Message": 'Message sent',
-                "ERRORS": error_message
-            }, status=200)
+        return Response({
+            "Message": 'Message sent',
+            "ERRORS": error_message
+        }, status=200)
