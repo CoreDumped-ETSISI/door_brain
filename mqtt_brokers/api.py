@@ -12,7 +12,7 @@ class MqttConnectView(APIView):
     def get(self, request):
         success_message = []
         error_message = []
-        brokers = Broker.objects.all()
+        brokers = Broker.objects.filter(duty="logs")
         if len(brokers) is 0:
             return Response({'ERRORS': 'No brokers registered'}, status=404)
         for broker in brokers:

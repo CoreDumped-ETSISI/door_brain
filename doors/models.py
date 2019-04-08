@@ -5,7 +5,8 @@ from custom_groups.models import CustomGroup
 
 class Door(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
-    broker = models.ForeignKey(Broker, on_delete=models.SET_NULL, null=True)
+    logs_broker = models.ForeignKey(Broker, on_delete=models.SET_NULL, null=True, related_name='logs')
+    manage_broker = models.ForeignKey(Broker, on_delete=models.SET_NULL, null=True, related_name='management')
     groups = models.ManyToManyField(CustomGroup)
 
     def __str__(self):
