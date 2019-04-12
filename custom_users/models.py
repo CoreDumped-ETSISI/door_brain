@@ -1,10 +1,10 @@
 from django.db import models
-from custom_groups.models import CustomGroup
+from mqtt_groups.models import MqttGroup
 
 
 class CustomUser(models.Model):
     username = models.CharField(primary_key=True, max_length=100, default=None)
-    group = models.ForeignKey(CustomGroup, on_delete=models.SET_NULL, null=True)
+    group = models.ForeignKey(MqttGroup, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.username
