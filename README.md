@@ -6,7 +6,7 @@ An API REST full to manage a mqtt communication between an escalable numbers of 
 ## requirements
 
  - python3
- - virtualenv
+ - pip3
  - Django
  - djangoresfrmework
  - paho-mqtt
@@ -14,17 +14,27 @@ An API REST full to manage a mqtt communication between an escalable numbers of 
  
  
  ## Setup
- 
-Init a virtual environment:
-
-```
-virtualenv venv
-source venv/bin/activate
-pip3 install -r requirements.txt
-```
-
 Init the data base:
 
+First, we need to install postgresql. In linux:
+```
+sudo apt-get install libpq-dev postgresql
+```
+Create the Database, the user and his password
+```
+createdb door-brain_DB
+createuser lordmascachapas
+psql
+ALTER USER lordmascachapas WITH PASSWORD 'admin';
+```
+
+Then, install python requirements:
+```
+pip3 install -r requirements.txt
+```
+(Notice that is needed to install libpq-dev and postgresql to install psycopg2 with the python requirements)
+
+Make the Django migrations:
 ```
 python3 manage.py makemigrations
 python3 manage.py migrate

@@ -2,3 +2,4 @@ Django==2.1.7
 django-rest-swagger==2.2.0
 djangorestframework==3.9.2
 paho-mqtt==1.4.0
+psycopg2==2.8.1
