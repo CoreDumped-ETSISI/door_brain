@@ -65,7 +65,7 @@ There are different ways to setup a MQTT broker. Here is an example with Mosquit
 
 ```
 sudo apt-get update
-sudo apt-get istall mosquitto
+sudo apt-get install mosquitto
 ```
 
 **CONGRATULATIONS !!!**
@@ -143,7 +143,9 @@ Start a *subscriber* with `mosquitto_sub -h 127.0.0.1 -t "manager"` and make the
 The command console will display the message.
 
 http://127.0.0.1:8000/mqtt/sendMessage/Hello
+
 http://127.0.0.1:8000/mqtt/sendMessage/Dude
+
 http://127.0.0.1:8000/mqtt/sendMessage/ooooh
 
 ```
