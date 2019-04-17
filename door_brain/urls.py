@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from mqtt_brokers.urls import urlpatterns as mqtt_broker_urls
+from door_management.urls import urlpatterns as d_manage_urls
 from logs.urls import urlpatterns as logs_urls
 from rest_framework_swagger.views import get_swagger_view
 
@@ -27,5 +27,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-urlpatterns += mqtt_broker_urls
+urlpatterns += d_manage_urls
 urlpatterns += logs_urls
