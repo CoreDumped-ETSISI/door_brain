@@ -22,6 +22,7 @@ sudo apt-get install libpq-dev postgresql
 ```
 Create the Database, the user and his password
 ```
+sudo su - postgres
 createdb door-brain_DB
 createuser lordmascachapas
 psql
