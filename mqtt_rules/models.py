@@ -19,6 +19,7 @@ PERMISSION_LEVEL = [
 
 
 class WeekRules(models.Model):
+    identf = models.CharField(max_length=100, primary_key=True)
     initial_hour_access = models.TimeField(default=0)
     duration = models.DurationField(default=0)
     days_per_week = ArrayField(
