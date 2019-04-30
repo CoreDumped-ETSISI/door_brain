@@ -4,13 +4,15 @@ An API REST full to manage a mqtt communication between an escalable numbers of 
 
 
 ## requirements
-
+ 
+ - postgresql
+ - libpq-dev
  - python3
- - pip3
- - Django
- - djangoresfrmework
- - paho-mqtt
- - django-rest-swagger
+     - pip3
+     - Django
+     - djangoresfrmework
+     - paho-mqtt
+     - django-rest-swagger
  
  
  ## Setup
@@ -101,6 +103,7 @@ Now try the API to start listen other MQTT clients. In the `door_brain/settings.
 
 To try the MQTT communication, is needed to tell the Brain to which brokers will send and listen messages.
 First, run the server with `python3 manage.py runserver`. Then, open the admin interface to create a new `Broker` instance with the ip `127.0.0.1`, `1883` as port and 'logs listener' as duty. 
+Also, you will need to create a `door`, `group` and `rule` instances ( :D ).
 
 Now start the MQTT communication with a GET request http://127.0.0.1:8000/mqtt/listenLogs.
 
