@@ -24,7 +24,7 @@ class MqttConnectView(APIView):
         for broker in brokers:
             try:
                 mqtt_client = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
-                mqtt_client.connect(host=broker.ip)
+                mqtt_client.connect(host=broker.ip, port=broker.port)
                 mqtt_client.subscribe(topic=MQTT_SETTINGS.get("TOPICS").get("LOGS"))
                 mqtt_client.on_message = lambda client, userdata, message: self.createLog(message)
                 mqtt_client.loop_start()

@@ -100,7 +100,7 @@ Now try the API to start listen other MQTT clients. In the `door_brain/settings.
  - "manager": Which will be use to send users data to the doors
 
 To try the MQTT communication, is needed to tell the Brain to which brokers will send and listen messages.
-First, run the server with `python3 manage.py runserver`. Then, open the admin interface to create a new `Broker` instance with the ip `127.0.0.1` And 'logs listener' as duty. 
+First, run the server with `python3 manage.py runserver`. Then, open the admin interface to create a new `Broker` instance with the ip `127.0.0.1`, `1883` as port and 'logs listener' as duty. 
 
 Now start the MQTT communication with a GET request http://127.0.0.1:8000/mqtt/listenLogs.
 

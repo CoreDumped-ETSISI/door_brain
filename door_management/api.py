@@ -16,7 +16,7 @@ class MqttSendMessage(APIView):
             return Response({'ERROR': 'No Manage brokers registered'}, status=404)
         for broker in brokers:
             try:
-                mqtt_manager.connect(broker.ip)
+                mqtt_manager.connect(host=broker.ip, port=broker.port)
                 mqtt_manager.publish(
                     topic=MQTT_SETTINGS.get('TOPICS').get('MANAGEMENT'),
                     payload=message
