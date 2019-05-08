@@ -149,3 +149,5 @@ BROKER_DUTIES = {
     "MANAGEMENT": "management",
     "LOGS": "logs"
 }
+
+AUTH_USER_MODEL = 'custom_users.User'
