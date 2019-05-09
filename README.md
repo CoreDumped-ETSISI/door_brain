@@ -8,11 +8,7 @@ An API REST full to manage a mqtt communication between an escalable numbers of 
  - postgresql
  - libpq-dev
  - python3
-     - pip3
-     - Django
-     - djangoresfrmework
-     - paho-mqtt
-     - django-rest-swagger
+ - pip3
  
  
  ## Setup
@@ -27,15 +23,16 @@ Create the Database, the user and his password
 sudo su - postgres
 createdb door-brain_DB
 createuser lordmascachapas
-psql
+psql door-brain_DB
 ALTER USER lordmascachapas WITH PASSWORD 'admin';
 ```
+'lordmascachapas' user with 'admin' passsword is defined in project settings, in `door_brain/setting.py`, in `DATABASES` property. Make sure you modify that property when using other credentials.
 
 Then, install python requirements:
 ```
 pip3 install -r requirements.txt
 ```
-(Notice that is needed to install libpq-dev and postgresql to install psycopg2 with the python requirements)
+(Notice that libpq-dev and postgresql are needed to install psycopg2 with the python requirements)
 
 Make the Django migrations:
 ```
@@ -54,6 +51,7 @@ python3 manage.py runserver [ip:port]
 ```
 
 The http://127.0.0.1:8000/ path will display a swagger doc with the API endpoints.
+Probably most of this endpoints will be shown if logged as superuser only.
 
 The http://127.0.0.1:8000/admin path will open an administration interface where login with super user credentials.
 
@@ -157,3 +155,5 @@ Hello
 Dude
 ooooh
 ```
+
+Other endpoints can be find on the swagger view.
