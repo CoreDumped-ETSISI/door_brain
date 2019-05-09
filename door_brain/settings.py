@@ -150,4 +150,18 @@ BROKER_DUTIES = {
     "LOGS": "logs"
 }
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+}
+
 AUTH_USER_MODEL = 'custom_users.User'
+
+LOGIN_URL = '/accounts/login'
+LOGOUT_URL = '/accounts/logout'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
