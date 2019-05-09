@@ -8,7 +8,7 @@ class Broker(models.Model):
     duty = models.CharField(choices=BROKER_DUTIES.get("choices"), max_length=50)
 
     class Meta:
-        unique_together = (("ip", "port"),)
+        unique_together = (("ip", "port", "duty"),)
 
     def __str__(self):
         return self.duty + ' - ' + self.ip
