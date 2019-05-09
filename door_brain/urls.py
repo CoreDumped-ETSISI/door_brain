@@ -14,17 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
 from door_management.urls import urlpatterns as d_manage_urls
 from logs.urls import urlpatterns as logs_urls
-from rest_framework_swagger.views import get_swagger_view
-
-schema_view = get_swagger_view(title='Pastebin API')
+from door_brain.schema import SwaggerSchemaView
+from django.urls import path, include
 
 
 urlpatterns = [
-    path('', schema_view),
+    path('', SwaggerSchemaView.as_view()),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 urlpatterns += d_manage_urls
