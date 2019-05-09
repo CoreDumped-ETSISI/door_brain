@@ -137,7 +137,7 @@ MQTT_SETTINGS = {
     'CLIENT_ID': "Manager",
     'TOPICS': {
         'LOGS': "logs",
-        'MANAGEMENT': "manager"
+        'MANAGEMENT_BROADCAST': "manager"
     }
 }
 

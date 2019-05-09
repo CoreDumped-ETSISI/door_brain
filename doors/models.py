@@ -7,6 +7,7 @@ class Door(models.Model):
     id = models.CharField(max_length=100, primary_key=True, default=None)
     logs_broker = models.ForeignKey(Broker, on_delete=models.SET_NULL, null=True, related_name='logs')
     manage_broker = models.ForeignKey(Broker, on_delete=models.SET_NULL, null=True, related_name='management')
+    manage_topic = models.CharField(max_length=100)
     groups = models.ManyToManyField(MqttGroup)
 
     def __str__(self):
