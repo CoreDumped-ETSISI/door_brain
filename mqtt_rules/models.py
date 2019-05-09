@@ -11,12 +11,6 @@ WEEKDAYS = [
     (7, 'Sunday')
 ]
 
-PERMISSION_LEVEL = [
-    (1, 'Ordinary'),
-    (2, 'Events'),
-    (3, 'Extraordinary')
-]
-
 
 class WeekRules(models.Model):
     identf = models.CharField(max_length=100, primary_key=True)
@@ -25,6 +19,3 @@ class WeekRules(models.Model):
     days_per_week = ArrayField(
         base_field=models.IntegerField(choices=WEEKDAYS)
     )
-    expiration_date = models.DateField(null=True)
-    initial_date = models.DateField(null=True)
-    permission_level = models.IntegerField(choices=PERMISSION_LEVEL)
