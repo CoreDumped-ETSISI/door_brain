@@ -44,7 +44,7 @@ class MqttSendMessageDetail(APIView):
         try:
             mqtt_manager.connect(host=manage_broker.ip, port=manage_broker.port)
             mqtt_manager.publish(
-                topic=MQTT_SETTINGS.get('TOPICS').get('MANAGEMENT_BROADCAST'),
+                topic=door.manage_topic,
                 payload=message
             )
         except Exception as err:
