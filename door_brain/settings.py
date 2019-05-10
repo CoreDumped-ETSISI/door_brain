@@ -144,7 +144,7 @@ MQTT_SETTINGS = {
 BROKER_DUTIES = {
     "choices": [
         ("logs", "doors logs listener"),
-        ("management", "order publisher")
+        ("management", "management publishing")
     ],
     "MANAGEMENT": "management",
     "LOGS": "logs"
