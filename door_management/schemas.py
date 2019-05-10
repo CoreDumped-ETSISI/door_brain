@@ -1,11 +1,12 @@
 import coreapi
 import coreschema
+from door_management.urls import base_url
 
-base_url = '/manage/'
 
 BroadcastSchema = coreapi.Link(
-    url=base_url+'sendMessage/{message}',
+    url='/'+base_url+'sendMessage/{message}',
     action='get',
+    description='Send a message to all doors',
     fields=[
         coreapi.Field(
             name='message',
@@ -18,8 +19,9 @@ BroadcastSchema = coreapi.Link(
 )
 
 DetailSchema = coreapi.Link(
-    url=base_url+'sendMessage/{door_id}/{message}',
+    url='/'+base_url+'sendMessage/{door_id}/{message}',
     action='get',
+    description='Send a message to a specific door',
     fields=[
         coreapi.Field(
             name='door_id',
