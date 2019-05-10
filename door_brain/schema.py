@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_swagger import renderers
 from door_management.schemas import BroadcastSchema, DetailSchema
+from logs.schemas import ListLogs, LogsListener
 import coreapi
 
 
@@ -15,6 +16,10 @@ class SwaggerSchemaView(APIView):
         'management': {
             'Send Message Broadcast': BroadcastSchema,
             'Send Message Detail': DetailSchema
+        },
+        'logs': {
+            'List Logs': ListLogs,
+            'Listen Logs': LogsListener
         }
     }
 
