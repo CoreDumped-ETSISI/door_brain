@@ -97,13 +97,14 @@ Your *publisher* sent a message and your *subscriber* has received that message
 Now try the API to start listen other MQTT clients. In the `door_brain/settings.py` file are the topics which the API will use to manage the doors
 
  - "logs": To listen the doors and save their messages as logs in a database
- - "manager": Which will be use to send users data to the doors
+ - "manager": Which will be use to send message in broadcast
+ - Each door have his own topic to send a message.
 
 To try the MQTT communication, is needed to tell the Brain to which brokers will send and listen messages.
 First, run the server with `python3 manage.py runserver`. Then, open the admin interface to create a new `Broker` instance with the ip `127.0.0.1`, `1883` as port and 'logs listener' as duty. 
-Also, you will need to create a `door`, `group` and `rule` instances ( :D ).
+Also, you will need to create a `door`, `MqttGroup` and `rule` instances ( :D ).
 
-Now start the MQTT communication with a GET request http://127.0.0.1:8000/mqtt/listenLogs.
+Now start the MQTT communication with a GET request http://127.0.0.1:8000/logs/listenLogs.
 
 To save a log, the message should be a jsonized data like this:
 
@@ -117,6 +118,7 @@ To save a log, the message should be a jsonized data like this:
 }
 ``` 
 Use `mosquitto_pub -h 127.0.0.1 -t "logs" -m '{"card_authorized": false, "door": "1789339278014108", "date_time": "2013-01-29T12:34:56.000000Z", "card_hash": "982341", "reason": "card does not exists"}'` command to publish the message. 
+Make sure that a door with that door identifier exists in the database.
 
 A new log must be created in the database. To be sure, in the admin site must be the new `Log` instance with the published message. 
 Also you can check it with the request http://127.0.0.1:8000/logs, which should return this JSON response:
@@ -136,18 +138,18 @@ Also you can check it with the request http://127.0.0.1:8000/logs, which should 
 
 ### The Brain talks
 
-Remember to create a broker with 'management' as duty. Having two brokers with the same ip is not allowed, so you can update the broker `127.0.0.1` with the duty 'management'.
+First, create a broker with 'management' as duty.
 
-A message can be published with the GET request http://127.0.0.1:8000/mqtt/sendMessage/msg.
+A message can be published with the GET request http://127.0.0.1:8000/manage/sendMessage/msg.
 The last extension *msg* will be the message to publish.
 Start a *subscriber* with `mosquitto_sub -h 127.0.0.1 -t "manager"` and make the request.
 The command console will display the message.
 
-http://127.0.0.1:8000/mqtt/sendMessage/Hello
+http://127.0.0.1:8000/manage/sendMessage/Hello
 
-http://127.0.0.1:8000/mqtt/sendMessage/Dude
+http://127.0.0.1:8000/manage/sendMessage/Dude
 
-http://127.0.0.1:8000/mqtt/sendMessage/ooooh
+http://127.0.0.1:8000/manage/sendMessage/ooooh
 
 ```
 linux:~$ mosquitto_sub -h 127.0.0.1 -t "manager"
