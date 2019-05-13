@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_swagger import renderers
-from door_management.schemas import BroadcastSchema, DetailSchema
+from door_management.schemas import BroadcastSchema, DetailSchema, UpdateDoors
 from logs.schemas import ListLogs, LogsListener
 import coreapi
 
@@ -15,7 +15,8 @@ class SwaggerSchemaView(APIView):
     protected_links = {
         'management': {
             'Send Message Broadcast': BroadcastSchema,
-            'Send Message Detail': DetailSchema
+            'Send Message Detail': DetailSchema,
+            'Update Doors': UpdateDoors
         },
         'logs': {
             'List Logs': ListLogs,
