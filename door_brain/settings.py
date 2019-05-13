@@ -137,15 +137,31 @@ MQTT_SETTINGS = {
     'CLIENT_ID': "Manager",
     'TOPICS': {
         'LOGS': "logs",
-        'MANAGEMENT': "manager"
+        'MANAGEMENT_BROADCAST': "manager"
     }
 }
 
 BROKER_DUTIES = {
     "choices": [
         ("logs", "doors logs listener"),
-        ("management", "order publisher")
+        ("management", "management publishing")
     ],
     "MANAGEMENT": "management",
     "LOGS": "logs"
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+}
+
+AUTH_USER_MODEL = 'custom_users.User'
+
+LOGIN_URL = '/accounts/login'
+LOGOUT_URL = '/accounts/logout'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
