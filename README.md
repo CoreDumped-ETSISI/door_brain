@@ -104,13 +104,14 @@ To try the MQTT communication, is needed to tell the Brain to which brokers will
 First, run the server with `python3 manage.py runserver`. Then, open the admin interface to create a new `Broker` instance with the ip `127.0.0.1`, `1883` as port and 'logs listener' as duty. 
 Also, you will need to create a `door`, `MqttGroup`, a management `Broker` and `rule` instances ( :D ).
 
+
 Now start the MQTT communication with a GET request http://127.0.0.1:8000/logs/listenLogs.
 
 To save a log, the message should be a jsonized data like this:
 
 ```
 {
-	"card_authorized": false, 
+	"card_authorized": false,
 	"door": "1789339278014108", 
 	"date_time": "2013-01-29T12:34:56.000000Z", 
 	"card_hash": "982341", 
