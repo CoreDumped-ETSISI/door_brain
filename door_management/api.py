@@ -57,3 +57,45 @@ class MqttSendMessageDetail(APIView):
             "Message": 'Message sent',
             "ERRORS": error_message
         }, status=200)
+
+
+class MqttUpdateDoors(APIView):
+    def get(self, request):
+        mqtt_manager = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
+        doors = Door.objects.get_queryset()
+        if len(doors) is 0:
+            return Response({'ERROR': 'Door not found'}, status=404)
+
+        for door in doors:
+            mqtt_groups = door.groups.get_queryset()
+            cards_to_attach = {}
+            groups_to_attach = {}
+            for group in mqtt_groups:
+                groups_to_attach[group.name] = {
+                    'init_date': group.initial_date.strftime('%Y-%m-%d'),
+                    'exp_date': group.expiration_date.strftime('%Y-%m-%d'),
+                    'time_table': group.get_time_table()
+                }
+                users = group.user_set.all()
+                for user in users:
+                    cards = user.card_set.all()
+                    for card in cards:
+                        card_hash = card.hash
+                        if card_hash not in cards_to_attach:
+                            cards_to_attach[card_hash] = {
+                                'init_date': card.initial_date.strftime('%Y-%m-%d'),
+                                'exp_date': card.expiration_date.strftime('%Y-%m-%d'),
+                                'groups': []
+                            }
+                        cards_to_attach[card_hash]['groups'].append(group.name)
+            message = json.dumps({
+                'groups': groups_to_attach,
+                'cards': cards_to_attach
+            })
+            broker = door.manage_broker
+            mqtt_manager.connect(host=broker.ip, port=broker.port)
+            mqtt_manager.publish(
+                topic=door.manage_topic,
+                payload=message
+            )
+        return Response(status=200)
