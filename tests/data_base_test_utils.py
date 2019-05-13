@@ -18,25 +18,25 @@ security_door_result = {
                 'S': [['14:00', '24:00']],
                 'D': [['14:00', '24:00']]
             },
-            'init_date': '2019-01-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2019-01-23',
+            'exp_date': '2020-10-23'
         },
     },
     'cards': {
         '2121': {
             'groups': ['security'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
         '333': {
             'groups': ['security'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
         '4444': {
             'groups': ['security'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         }
     }
 }
@@ -53,20 +53,20 @@ storage_door_result = {
                 'S': [['14:00', '18:00']],
                 'D': [['05:00', '11:00']]
             },
-            'init_date': '2019-01-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2019-01-23',
+            'exp_date': '2020-10-23'
         },
     },
     'cards': {
         '1234': {
             'groups': ['housekeeping'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
         '2222': {
             'groups': ['housekeeping'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
     }
 }
@@ -83,8 +83,8 @@ hall_door_result = {
                 'S': [['14:00', '24:00']],
                 'D': [['14:00', '24:00']]
             },
-            'init_date': '2019-01-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2019-01-23',
+            'exp_date': '2020-10-23'
         },
         'housekeeping': {
             'time_table': {
@@ -96,35 +96,35 @@ hall_door_result = {
                 'S': [['14:00', '18:00']],
                 'D': [['05:00', '11:00']]
             },
-            'init_date': '2019-01-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2019-01-23',
+            'exp_date': '2020-10-23'
         },
     },
     'cards': {
         '2121': {
             'groups': ['security'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
         '333': {
             'groups': ['security'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
         '4444': {
             'groups': ['security'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
         '1234': {
             'groups': ['housekeeping'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
         '2222': {
             'groups': ['housekeeping'],
-            'init_date': '2018-10-23T00:00:00.000000Z',
-            'exp_date': '2020-10-23T00:00:00.000000Z'
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
         },
     }
 }
@@ -135,25 +135,25 @@ def setup_db_for_test():
         identf="current_rule_1",
         initial_hour_access="05:00",
         duration=datetime.timedelta(hours=6),
-        days_per_week=[1, 3, 5, 7],
+        days_per_week=['L', 'X', 'V', 'D'],
     )
     current_rule_2 = WeekRules.objects.create(
         identf="current_rule_2",
         initial_hour_access="14:00",
         duration=datetime.timedelta(hours=4),
-        days_per_week=[2, 3, 4, 6],
+        days_per_week=['M', 'X', 'J', 'S'],
     )
     current_rule_3 = WeekRules.objects.create(
         identf="current_rule_3",
         initial_hour_access="14:00",
         duration=datetime.timedelta(hours=10),
-        days_per_week=[1, 2, 3, 4, 5, 6, 7],
+        days_per_week=['L', 'M', 'X', 'J', 'V', 'S', 'D'],
     )
     old_rule = WeekRules.objects.create(
         identf="old_rule",
         initial_hour_access="07:00",
         duration=datetime.timedelta(hours=5),
-        days_per_week=[3, 6, 7],
+        days_per_week=['X', 'S', 'D'],
     )
 
     housekeeping = MqttGroup.objects.create(
@@ -298,5 +298,3 @@ def setup_db_for_test():
     hall_door.manage_broker = server_B
     hall_door.groups.add(security, housekeeping)
     hall_door.save()
-
-

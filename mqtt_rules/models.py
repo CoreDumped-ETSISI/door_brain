@@ -3,13 +3,13 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 WEEKDAYS = [
-    (1, 'Monday'),
-    (2, 'Tuesday'),
-    (3, 'Wednesday'),
-    (4, 'Thursday'),
-    (5, 'Friday'),
-    (6, 'Saturday'),
-    (7, 'Sunday')
+    ('L', 'Monday'),
+    ('M', 'Tuesday'),
+    ('X', 'Wednesday'),
+    ('J', 'Thursday'),
+    ('V', 'Friday'),
+    ('S', 'Saturday'),
+    ('D', 'Sunday')
 ]
 
 
@@ -24,8 +24,9 @@ class WeekRules(models.Model):
     duration = models.DurationField(default=0, validators=[validate_duration])
     days_per_week = ArrayField(
         size=7,
-        base_field=models.IntegerField(choices=WEEKDAYS),
+        base_field=models.CharField(max_length=1, choices=WEEKDAYS),
     )
 
     def clean_fields(self, exclude=None):
-        self.days_per_week = list(set(self.days_per_week))
+        if isinstance(self.days_per_week, list):
+            self.days_per_week = list(set(self.days_per_week))
