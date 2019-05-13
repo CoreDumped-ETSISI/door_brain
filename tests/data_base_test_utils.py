@@ -10,16 +10,16 @@ security_door_result = {
     'groups': {
         'security': {
             'time_table': {
-                'L': [['14:00', '24:00']],
-                'M': [['14:00', '24:00']],
-                'X': [['14:00', '24:00']],
-                'J': [['14:00', '24:00']],
-                'V': [['14:00', '24:00']],
-                'S': [['14:00', '24:00']],
-                'D': [['14:00', '24:00']]
+                'L': [['14:00', '00:00']],
+                'M': [['14:00', '00:00']],
+                'X': [['14:00', '00:00']],
+                'J': [['14:00', '00:00']],
+                'V': [['14:00', '00:00']],
+                'S': [['14:00', '00:00']],
+                'D': [['14:00', '00:00']]
             },
             'init_date': '2019-01-23',
-            'exp_date': '2020-10-23'
+            'exp_date': '2020-01-23'
         },
     },
     'cards': {
@@ -54,7 +54,7 @@ storage_door_result = {
                 'D': [['05:00', '11:00']]
             },
             'init_date': '2019-01-23',
-            'exp_date': '2020-10-23'
+            'exp_date': '2020-01-23'
         },
     },
     'cards': {
@@ -75,16 +75,16 @@ hall_door_result = {
     'groups': {
         'security': {
             'time_table': {
-                'L': [['14:00', '24:00']],
-                'M': [['14:00', '24:00']],
-                'X': [['14:00', '24:00']],
-                'J': [['14:00', '24:00']],
-                'V': [['14:00', '24:00']],
-                'S': [['14:00', '24:00']],
-                'D': [['14:00', '24:00']]
+                'L': [['14:00', '00:00']],
+                'M': [['14:00', '00:00']],
+                'X': [['14:00', '00:00']],
+                'J': [['14:00', '00:00']],
+                'V': [['14:00', '00:00']],
+                'S': [['14:00', '00:00']],
+                'D': [['14:00', '00:00']]
             },
             'init_date': '2019-01-23',
-            'exp_date': '2020-10-23'
+            'exp_date': '2020-01-23'
         },
         'housekeeping': {
             'time_table': {
@@ -97,7 +97,7 @@ hall_door_result = {
                 'D': [['05:00', '11:00']]
             },
             'init_date': '2019-01-23',
-            'exp_date': '2020-10-23'
+            'exp_date': '2020-01-23'
         },
     },
     'cards': {
@@ -291,7 +291,7 @@ def setup_db_for_test():
     storage_room_door.groups.add(housekeeping)
     storage_room_door.save()
     security_room_door.logs_broker = server_A
-    security_room_door.logs_broker = server_B
+    security_room_door.manage_broker = server_B
     security_room_door.groups.add(security)
     security_room_door.save()
     hall_door.logs_broker = server_A
