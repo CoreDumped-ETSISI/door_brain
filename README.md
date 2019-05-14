@@ -26,7 +26,7 @@ createuser lordmascachapas
 psql door-brain_DB
 ALTER USER lordmascachapas WITH PASSWORD 'admin';
 ```
-'lordmascachapas' user with 'admin' passsword is defined in project settings, in `door_brain/setting.py`, in `DATABASES` property. Make sure you modify that property when using other credentials.
+'lordmascachapas' user with 'admin' password is defined in project settings, in `door_brain/setting.py`, in `DATABASES` property. Make sure you modify that property when using other credentials.
 
 Then, install python requirements:
 ```
@@ -76,7 +76,7 @@ Your MQTT broker is installed and operative. Now we need clients:
 sudo apt-get install mosquitto-clients
 ```
 
-MQTT clients need the broker ip to send and get messages. You can use `127.0.0.1` to test it.
+MQTT clients need the broker ip to send and get messages. You can use `127.0.0.1` to test it in localhost.
 
 To setup a *subscriber* type the next command:
 ```
@@ -119,7 +119,7 @@ To save a log, the message should be a jsonized data like this:
 }
 ``` 
 Use `mosquitto_pub -h 127.0.0.1 -t "logs" -m '{"card_authorized": false, "door": "1789339278014108", "date_time": "2013-01-29T12:34:56.000000Z", "card_hash": "982341", "reason": "card does not exists"}'` command to publish the message. 
-Make sure that a door with that door identifier exists in the database.
+Make sure that a door with that identifier exists in the database.
 
 A new log must be created in the database. To be sure, in the admin site must be the new `Log` instance with the published message. 
 Also you can check it with the request http://127.0.0.1:8000/logs, which should return this JSON response:
