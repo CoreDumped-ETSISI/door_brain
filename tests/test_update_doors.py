@@ -1,9 +1,132 @@
 from django.test import client, TestCase
 from django.urls import reverse
-from tests.data_base_test_utils import setup_db_for_test, security_door_result, storage_door_result, hall_door_result
+from tests.data_base_test_utils import setup_db_for_test
 import paho.mqtt.client as mqtt
 import time
 import json
+
+security_door_solution = {
+    'groups': {
+        'security': {
+            'time_table': {
+                'L': [['14:00', '00:00']],
+                'M': [['14:00', '00:00']],
+                'X': [['14:00', '00:00']],
+                'J': [['14:00', '00:00']],
+                'V': [['14:00', '00:00']],
+                'S': [['14:00', '00:00']],
+                'D': [['14:00', '00:00']]
+            },
+            'init_date': '2019-01-23',
+            'exp_date': '2020-01-23'
+        },
+    },
+    'cards': {
+        '2121': {
+            'groups': ['security'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+        '333': {
+            'groups': ['security'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+        '4444': {
+            'groups': ['security'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        }
+    }
+}
+
+storage_door_solution = {
+    'groups': {
+        'housekeeping': {
+            'time_table': {
+                'L': [['05:00', '11:00']],
+                'M': [['14:00', '18:00']],
+                'X': [['05:00', '11:00'], ['14:00', '18:00']],
+                'J': [['14:00', '18:00']],
+                'V': [['05:00', '11:00']],
+                'S': [['14:00', '18:00']],
+                'D': [['05:00', '11:00']]
+            },
+            'init_date': '2019-01-23',
+            'exp_date': '2020-01-23'
+        },
+    },
+    'cards': {
+        '1234': {
+            'groups': ['housekeeping'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+        '2222': {
+            'groups': ['housekeeping'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+    }
+}
+
+hall_door_solution = {
+    'groups': {
+        'security': {
+            'time_table': {
+                'L': [['14:00', '00:00']],
+                'M': [['14:00', '00:00']],
+                'X': [['14:00', '00:00']],
+                'J': [['14:00', '00:00']],
+                'V': [['14:00', '00:00']],
+                'S': [['14:00', '00:00']],
+                'D': [['14:00', '00:00']]
+            },
+            'init_date': '2019-01-23',
+            'exp_date': '2020-01-23'
+        },
+        'housekeeping': {
+            'time_table': {
+                'L': [['05:00', '11:00']],
+                'M': [['14:00', '18:00']],
+                'X': [['05:00', '11:00'], ['14:00', '18:00']],
+                'J': [['14:00', '18:00']],
+                'V': [['05:00', '11:00']],
+                'S': [['14:00', '18:00']],
+                'D': [['05:00', '11:00']]
+            },
+            'init_date': '2019-01-23',
+            'exp_date': '2020-01-23'
+        },
+    },
+    'cards': {
+        '2121': {
+            'groups': ['security'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+        '333': {
+            'groups': ['security'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+        '4444': {
+            'groups': ['security'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+        '1234': {
+            'groups': ['housekeeping'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+        '2222': {
+            'groups': ['housekeeping'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        },
+    }
+}
 
 C = client.Client()
 
@@ -64,6 +187,6 @@ class UpdateDoorsTest(TestCase):
             self.assertTrue(max_time >= time_passed)
 
         self.maxDiff = None
-        self.assertDictEqual(self.security_door_retrieved_data, security_door_result)
-        self.assertDictEqual(self.storage_door_retrieved_data, storage_door_result)
-        self.assertDictEqual(self.hall_door_retrieved_data, hall_door_result)
+        self.assertDictEqual(self.security_door_retrieved_data, security_door_solution)
+        self.assertDictEqual(self.storage_door_retrieved_data, storage_door_solution)
+        self.assertDictEqual(self.hall_door_retrieved_data, hall_door_solution)
