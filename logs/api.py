@@ -8,6 +8,8 @@ from mqtt_brokers.models import Broker
 from logs.serializers import MqttLogsListenerSerial
 import json
 
+mqtt_clients = []
+
 
 class LogsView(ListAPIView):
     queryset = Log.objects.all()
@@ -16,18 +18,25 @@ class LogsView(ListAPIView):
 
 class MqttConnectView(APIView):
     def get(self, request):
+        global mqtt_clients
         success_message = []
         error_message = []
         brokers = Broker.objects.filter(duty=BROKER_DUTIES.get("LOGS"))
         if len(brokers) is 0:
             return Response({'ERRORS': 'No brokers registered'}, status=404)
+        for old_client in mqtt_clients:
+            old_client.disconnect()
+            del old_client
+        mqtt_clients = []
         for broker in brokers:
             try:
-                mqtt_client = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
+                mqtt_clients = []
+                mqtt_client = mqtt.Client()
                 mqtt_client.connect(host=broker.ip, port=broker.port)
                 mqtt_client.subscribe(topic=MQTT_SETTINGS.get("TOPICS").get("LOGS"))
                 mqtt_client.on_message = lambda client, userdata, message: self.createLog(message)
                 mqtt_client.loop_start()
+                mqtt_clients.append(mqtt_client)
                 success_message.append('Mqtt connection with broker ' + broker.ip + ' success')
             except Exception as err:
                 error_message += [{

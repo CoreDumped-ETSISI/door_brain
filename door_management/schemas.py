@@ -41,7 +41,7 @@ DetailSchema = coreapi.Link(
 )
 
 UpdateDoors = coreapi.Link(
-    url='/'+base_url+'updateUsers',
+    url='/'+base_url+'updateDoors',
     action='get',
     description='Update door with users cards'
 )
