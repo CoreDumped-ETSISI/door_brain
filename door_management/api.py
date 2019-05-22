@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from paho.mqtt import client as mqtt
+from paho.mqtt import publish as mqtt_publish
 from door_brain.settings import MQTT_SETTINGS, BROKER_DUTIES
 from mqtt_brokers.models import Broker
 from doors.models import Door
@@ -13,11 +13,12 @@ class MqttSendMessageBroadcast(APIView):
         error_message = []
         if len(brokers) is 0:
             return Response({'ERROR': 'No Manage brokers registered'}, status=404)
+
         for broker in brokers:
             try:
-                mqtt_manager = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
-                mqtt_manager.connect(host=broker.ip, port=broker.port)
-                mqtt_manager.publish(
+                mqtt_publish.single(
+                    hostname=broker.ip,
+                    port=broker.port,
                     topic=MQTT_SETTINGS.get('TOPICS').get('MANAGEMENT_BROADCAST'),
                     payload=message
                 )
@@ -42,9 +43,9 @@ class MqttSendMessageDetail(APIView):
         manage_broker = door.manage_broker
         error_message = []
         try:
-            mqtt_manager = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
-            mqtt_manager.connect(host=manage_broker.ip, port=manage_broker.port)
-            mqtt_manager.publish(
+            mqtt_publish.single(
+                hostname=door.manage_broker.ip,
+                port=door.manage_broker.port,
                 topic=door.manage_topic,
                 payload=message
             )
@@ -61,7 +62,6 @@ class MqttSendMessageDetail(APIView):
 
 class MqttUpdateDoors(APIView):
     def get(self, request):
-        mqtt_manager = mqtt.Client(client_id=MQTT_SETTINGS.get("CLIENT_ID"))
         doors = Door.objects.get_queryset()
         if len(doors) is 0:
             return Response({'ERROR': 'Door not found'}, status=404)
@@ -93,8 +93,9 @@ class MqttUpdateDoors(APIView):
                 'cards': cards_to_attach
             })
             broker = door.manage_broker
-            mqtt_manager.connect(host=broker.ip, port=broker.port)
-            mqtt_manager.publish(
+            mqtt_publish.single(
+                hostname=broker.ip,
+                port=broker.port,
                 topic=door.manage_topic,
                 payload=message
             )
