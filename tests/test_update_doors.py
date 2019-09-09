@@ -67,6 +67,11 @@ storage_door_solution = {
             'init_date': '2018-10-23',
             'exp_date': '2020-10-23'
         },
+        '4444': {
+            'groups': ['housekeeping'],
+            'init_date': '2018-10-23',
+            'exp_date': '2020-10-23'
+        }
     }
 }
 
@@ -111,7 +116,7 @@ hall_door_solution = {
             'exp_date': '2020-10-23'
         },
         '4444': {
-            'groups': ['security'],
+            'groups': ['housekeeping', 'security'],
             'init_date': '2018-10-23',
             'exp_date': '2020-10-23'
         },
