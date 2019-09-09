@@ -139,6 +139,7 @@ def setup_db_for_test():
     maria.mqtt_groups.add(security)
     maria.save()
     marta.mqtt_groups.add(security)
+    marta.mqtt_groups.add(housekeeping)
     marta.save()
     mr_misterius.mqtt_groups.add(old_residents)
     mr_misterius.save()
