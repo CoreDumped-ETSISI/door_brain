@@ -98,7 +98,7 @@ Now try the API to start listen other MQTT clients. In the `door_brain/settings.
 
  - "logs": To listen the doors and save their messages as logs in a database
  - "manager": Which will be use to send message in broadcast
- - Each door have his own topic to send a message.
+ - Each door have his own topic to send a message to the door brain.
 
 To try the MQTT communication, is needed to tell the Brain to which brokers will send and listen messages.
 First, run the server with `python3 manage.py runserver`. Then, open the admin interface to create a new `Broker` instance with the ip `127.0.0.1`, `1883` as port and 'logs listener' as duty. 
@@ -118,6 +118,8 @@ To save a log, the message should be a jsonized data like this:
 	"reason": "card does not exists"
 }
 ``` 
+This is an example message, so make sure the 'door' field corresponds with the door id posted in the admin's page. 'date_time' must have the correct format as shown in the example.
+
 Use `mosquitto_pub -h 127.0.0.1 -t "logs" -m '{"card_authorized": false, "door": "1789339278014108", "date_time": "2013-01-29T12:34:56.000000Z", "card_hash": "982341", "reason": "card does not exists"}'` command to publish the message. 
 Make sure that a door with that identifier exists in the database.
 
